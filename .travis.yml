@@ -6,5 +6,5 @@ install:
   - nuget restore BookStoreContribe.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release solution-name.sln
+  - xbuild /p:Configuration=Release BookStoreContribe.sln
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./BookStoreAPI.Tests/bin/Release/BookStoreAPI.Tests.dll
