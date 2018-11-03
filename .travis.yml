@@ -4,7 +4,7 @@ mono:
   - latest
 install:
   - nuget restore BookStoreContribe.sln
-  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+  - nuget install NUnit.Runners -Version 3.7.0 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release BookStoreContribe.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./BookStoreAPI.Tests/bin/Release/BookStoreAPI.Tests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe ./BookStoreAPI.Tests/bin/Release/BookStoreAPI.Tests.dll
