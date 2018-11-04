@@ -3,10 +3,10 @@ solution: BookStoreContribe.sln
 mono:
   - latest
 script:
-  - xbuild /p:Configuration=Debug BookStoreContribe.sln
+  - msbuild /p:Configuration=Debug BookStoreContribe.sln
 before_install:
   - sudo apt-get install nunit-console
 before_script:
   - nuget restore BookStoreContribe.sln
 after_script:
-  - nunit-console ./BookStoreAPI.Tests/bin/Release/BookStoreAPI.Tests.dll
+  - nunit-console ./BookStoreAPI.Tests/bin/Debug/BookStoreAPI.Tests.dll
