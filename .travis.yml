@@ -1,12 +1,8 @@
 language: csharp
 solution: BookStoreContribe.sln
-mono:
-  - latest
-script:
-  - msbuild /p:Configuration=Debug BookStoreContribe.sln
-before_install:
-  - sudo apt-get install nunit-console
-before_script:
+install:
   - nuget restore BookStoreContribe.sln
-after_script:
-  - nunit-console ./BookStoreAPI.Tests/bin/Debug/BookStoreAPI.Tests.dll
+  - nuget install NUnit.Runners -Version 3.9.0 -OutputDirectory testrunner
+script:
+  - msbuild /p:Configuration=Release  BookStoreContribe.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./BookStoreAPI.Tests/bin/Release/BookStoreAPI.Tests.dll
