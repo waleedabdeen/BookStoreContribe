@@ -1,21 +1,20 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using BookStoreAPI.Controllers;
 using BookStoreAPI.Tests.TestDbSets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BookStoreAPI.Models;
 using BookStoreAPI.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace BookStoreAPI.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class BooksControllerTest
     {
-        [TestMethod]
+        [Test]
         public async Task GetBook_ShouldReturnBookDetails()
         {
             // Arrange
@@ -34,7 +33,7 @@ namespace BookStoreAPI.Tests.Controllers
             Assert.AreEqual("id1", book.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void GetBooks_ShouldReturnAllBooks()
         {
             // Arrange
@@ -54,7 +53,7 @@ namespace BookStoreAPI.Tests.Controllers
 
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetSearch_ShouldReturnKewordMatchingBooks()
         {
             // Arrange
@@ -75,7 +74,7 @@ namespace BookStoreAPI.Tests.Controllers
             Assert.AreEqual(2, books.Count());
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostCheckAvailability_ShouldBeAvailable()
         {
             // Arrange
@@ -103,7 +102,7 @@ namespace BookStoreAPI.Tests.Controllers
             Assert.AreEqual(cartItem, availableBooks.ElementAt(0));
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostCheckAvailability_ShouldBeOutOfStock()
         {
             // Arrange

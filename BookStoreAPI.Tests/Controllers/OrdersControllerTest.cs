@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using BookStoreAPI.Controllers;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -9,10 +9,10 @@ using BookStoreAPI.Tests.TestDbSets;
 
 namespace BookStoreAPI.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class OrdersControllerTest
     {
-        [TestMethod]
+        [Test]
         public async Task GetOrder_ShouldReturnOrderDetails()
         {
             // Arrange
@@ -50,7 +50,7 @@ namespace BookStoreAPI.Tests.Controllers
         //    Assert.AreEqual(1, orders.Count);
         //}
 
-        [TestMethod]
+        [Test]
         public async Task PostOrder_ShouldPostNewOrder()
         {
             // Arrange
@@ -77,7 +77,7 @@ namespace BookStoreAPI.Tests.Controllers
             Assert.IsNotNull(order.Id);
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostOrder_ShouldReturnError()
         {
             // Arrange
