@@ -9,25 +9,21 @@ namespace BookStoreAPI.Models
     public class CartItem : ICartItem
     {
 
-        public string Id { get; set; }
-
-        public string BookId { get; set; }
+        public BookDTO Book { get; set; }
 
         public int Quantity { get; set; }
 
-        public int Status { get; set; }
+        public bool IsAvailable { get; set; }
 
         public CartItem()
         {
-            Id = "";
-            BookId = "";
+            Book = new BookDTO();
             Quantity = 0;
         }
 
-        public CartItem(string bookId, int quantity)
+        public CartItem(BookDTO book, int quantity)
         {
-            Id = Util.Util.GetNewId();
-            BookId = bookId;
+            Book = book;
             Quantity = quantity;
         }
     }

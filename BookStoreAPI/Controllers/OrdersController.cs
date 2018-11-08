@@ -36,7 +36,8 @@ namespace BookStoreAPI.Controllers
                                          Id = order.Id,
                                          OrderDate = order.OrderDate,
                                          Status = order.Status,
-                                         CustomerId = order.CustomerId
+                                         CustomerId = order.CustomerId,
+                                         TotalAmount = order.TotalAmount
                                     }).ToList();
 
             var ordersDetails = (from order in db.Orders
@@ -61,12 +62,20 @@ namespace BookStoreAPI.Controllers
         public async Task<IHttpActionResult> GetOrder(string id)
         {
             Order order = await db.Orders.FindAsync(id);
+            OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO
+            {
+                Id = order.Id,
+                OrderDate = order.OrderDate,
+                Status = order.Status,
+                CustomerId = order.CustomerId,
+                TotalAmount = order.TotalAmount
+            };
             if (order == null)
             {
                 return NotFound();
             }
 
-            return Ok(new ApiResponse(order));
+            return Ok(new ApiResponse(orderDetailsDTO));
         }
 
         // PUT: api/Orders/5
@@ -180,7 +189,8 @@ namespace BookStoreAPI.Controllers
                 CustomerId = order.CustomerId,
                 OrderDate = order.OrderDate,
                 Status = order.Status,
-                OrderItemsDTO = orderItemsDTO
+                OrderItemsDTO = orderItemsDTO,
+                TotalAmount = order.TotalAmount
             };
             return Created("api/Orders", new ApiResponse(orderDetailsDTO));
             //return Ok(order.Id);

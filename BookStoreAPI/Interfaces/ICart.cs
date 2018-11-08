@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookStoreAPI.Models;
 
 namespace BookStoreAPI.Interfaces
 {
@@ -10,6 +11,6 @@ namespace BookStoreAPI.Interfaces
     {
         string Id { get; }
 
-        IEnumerable<ICartItem> CartItems { get; }
+        IEnumerable<CartItem> CartItems { get; }
     }
 }

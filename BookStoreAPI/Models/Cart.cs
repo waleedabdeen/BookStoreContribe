@@ -6,12 +6,12 @@ using BookStoreAPI.Interfaces;
 
 namespace BookStoreAPI.Models
 {
-    public class Cart
+    public class Cart : ICart
     {
         public string Id { get; set; }
 
         //public IEnumerable<CartItem> CartItems { get; set; }
 
-        public IEnumerable<ICartItem> CartItems { get; set; }
+        public IEnumerable<CartItem> CartItems { get; set; }
     }
 }

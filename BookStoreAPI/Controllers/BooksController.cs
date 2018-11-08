@@ -48,6 +48,7 @@ namespace BookStoreAPI.Controllers
         public async Task<IHttpActionResult> GetBook(string id)
         {
             Book book = await db.Books.FindAsync(id);
+            
             if (book == null)
             {
                 return NotFound();
@@ -155,12 +156,12 @@ namespace BookStoreAPI.Controllers
             try
             {
                 Task<IHttpActionResult> checkAvilablityTaks = new Task<IHttpActionResult>(() => {
-                    List<ICartItem> availableBooks = new List<ICartItem>();
+                    List<IBookDTO> availableBooks = new List<IBookDTO>();
                     foreach (var item in value.CartItems)
                     {
-                        if (BookAvailable(item.BookId, item.Quantity))
+                        if (BookAvailable(item.Book.Id, item.Quantity))
                         {
-                            availableBooks.Add(item);
+                            availableBooks.Add(item.Book);
                         }
                     }
                     if (availableBooks.Count() == value.CartItems.Count())

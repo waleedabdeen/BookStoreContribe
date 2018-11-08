@@ -81,25 +81,25 @@ namespace BookStoreAPI.Tests.Controllers
             var context = new TestBookStoreAPIContext();
             var testBook = DemoData.GetDemoBook();
             context.Books.Add(testBook);
-            var cartItem = new CartItem { Id = "ab12", BookId = testBook.Id , Quantity = 1, Status = 0 };
-            var cart = new Cart
+            var testBookDTO = DemoData.GetDTOfromBook(testBook);
+            var cartItem = new CartItem { Book = testBookDTO , Quantity = 1 };
+            var cart = new Cart()
             {
                 Id = "TheCartId",
-                CartItems =
-                new List<CartItem> { cartItem }
+                CartItems = new List<CartItem> { cartItem }
             };
 
             // Act
             var controller = new BooksController(context);
             var result = await controller.Post(cart) as IHttpActionResult;
             var contentResult = result as OkNegotiatedContentResult<ApiResponse>;
-            var availableBooks = contentResult.Content.Data as IEnumerable<ICartItem>;
+            var availableBooks = contentResult.Content.Data as IEnumerable<IBookDTO>;
 
             // Assert
             Assert.IsNotNull(result);
             Assert.IsTrue(!contentResult.Content.Error);
             Assert.AreEqual("all available", contentResult.Content.Message);
-            Assert.AreEqual(cartItem, availableBooks.ElementAt(0));
+            Assert.AreEqual(testBookDTO, availableBooks.ElementAt(0));
         }
 
         [Test]
@@ -108,7 +108,8 @@ namespace BookStoreAPI.Tests.Controllers
             // Arrange
             var context = new TestBookStoreAPIContext();
             var testBook = DemoData.GetDemoBook();
-            var cartItem = new CartItem { Id = "ab12", BookId = testBook.Id, Quantity = 4, Status = 0 };
+            context.Books.Add(testBook);
+            var cartItem = new CartItem { Book = DemoData.GetDTOfromBook(testBook), Quantity = 4 };
             var cart = new Cart
             {
                 Id = "TheCartId",
@@ -119,7 +120,7 @@ namespace BookStoreAPI.Tests.Controllers
             var controller = new BooksController(context);
             var result = await controller.Post(cart) as IHttpActionResult;
             var contentResult = result as OkNegotiatedContentResult<ApiResponse>;
-            var availableBooks = contentResult.Content.Data as IEnumerable<ICartItem>;
+            var availableBooks = contentResult.Content.Data as IEnumerable<IBookDTO>;
 
             // Assert
             Assert.IsNotNull(result);

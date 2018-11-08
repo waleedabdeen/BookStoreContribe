@@ -17,18 +17,31 @@ namespace BookStoreAPI.Tests.Controllers
         {
             // Arrange
             var context = new TestBookStoreAPIContext();
-            context.Orders.Add(DemoData.GetDemoOrder());
+            var order = DemoData.GetDemoOrder();
+            context.Orders.Add(order);
+            OrderItem orderItem = new OrderItem
+            {
+                Id = Util.Util.GetNewId(),
+                OrderId = order.Id,
+                BookId = "xta",
+                SellingPrice = 499,
+                Quantity = 1,
+                ShippingStatus = 0,
+                CreatedAt = new System.DateTime()
+            };
+            context.OrderItems.Add(orderItem);
 
             // Act
             var controller = new OrdersController(context);
             var result = await controller.GetOrder("XyZ") as IHttpActionResult;
             var contentResult = result as OkNegotiatedContentResult<ApiResponse>;
-            var order = contentResult.Content.Data as Order;
+            var orderDetails = contentResult.Content.Data as OrderDetailsDTO;
 
             // Assert
             Assert.IsNotNull(result);
             Assert.IsTrue(!contentResult.Content.Error);
-            Assert.AreEqual("XyZ", order.Id);
+            Assert.AreEqual("XyZ", orderDetails.Id);
+            Assert.AreEqual(499, orderDetails.TotalAmount);
         }
 
         //[TestMethod]
@@ -62,7 +75,7 @@ namespace BookStoreAPI.Tests.Controllers
                 Id = "TheCartId",
                 //this item is in stock
                 CartItems =
-                new List<CartItem> { new CartItem(testBook.Id, 1) }
+                new List<CartItem> { new CartItem(DemoData.GetDTOfromBook(testBook), 1) }
             };
 
             // Act
@@ -89,7 +102,7 @@ namespace BookStoreAPI.Tests.Controllers
                 Id = "TheCartId",
                 //this item is out of stock
                 CartItems =
-                new List<CartItem> { new CartItem(testBook.Id, 5) }
+                new List<CartItem> { new CartItem(DemoData.GetDTOfromBook(testBook), 5) }
 
             };
 

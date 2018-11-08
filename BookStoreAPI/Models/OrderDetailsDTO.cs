@@ -17,6 +17,8 @@ namespace BookStoreAPI.Models
 
         public OrderStatus Status { get; set; }
 
+        public decimal TotalAmount { get; set; }
+
         public IEnumerable<OrderItemDTO> OrderItemsDTO { get; set; }
     }
 }

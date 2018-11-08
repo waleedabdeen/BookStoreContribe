@@ -209,7 +209,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderItemsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\ShippingStatus.cs" />
     <Compile Include="Global.asax.cs">
@@ -227,6 +226,10 @@
     <Compile Include="Migrations\201811031415421_Initial.Designer.cs">
       <DependentUpon>201811031415421_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811081855443_order_total.cs" />
+    <Compile Include="Migrations\201811081855443_order_total.Designer.cs">
+      <DependentUpon>201811081855443_order_total.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -236,6 +239,7 @@
     <Compile Include="Models\BookstoreService.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CustomApiController.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetailsDTO.cs" />
@@ -288,6 +292,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811031415421_Initial.resx">
       <DependentUpon>201811031415421_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811081855443_order_total.resx">
+      <DependentUpon>201811081855443_order_total.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

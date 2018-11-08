@@ -329,16 +329,15 @@ namespace BookStoreAPI.Controllers
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-            
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            IdentityResult roleResult = await UserManager.AddToRoleAsync(user.Id, "User");
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            IdentityResult roleResult = await UserManager.AddToRoleAsync(user.Id, "User");
+            return Ok(new ApiResponse("Account Created Successfully!"));
         }
 
         // POST api/Account/RegisterExternal
@@ -414,7 +413,7 @@ namespace BookStoreAPI.Controllers
                     // No ModelState errors are available to send, so just return an empty BadRequest.
                     return BadRequest();
                 }
-
+                
                 return BadRequest(ModelState);
             }
 

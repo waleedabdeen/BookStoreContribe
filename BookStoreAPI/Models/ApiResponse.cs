@@ -8,7 +8,9 @@ namespace BookStoreAPI.Models
     public class ApiResponse : Interfaces.IApiResponse
     {
         public bool Error { get; set; }
+
         public string Message { get; set; }
+
         public object Data { get; set; }
 
         public ApiResponse()

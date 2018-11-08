@@ -17,17 +17,17 @@ namespace BookStoreAPI.Models
 
         public OrderStatus Status { get; set; }
 
+        public Decimal TotalAmount { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
-        public Order CreateOrderFromCart(Cart cart, IBookStoreAPIContext db)
+        public void CreateOrderFromCart(Cart cart, IBookStoreAPIContext db)
         {
             this.Id = Util.Util.GetNewId();
             this.CustomerId = cart.Id;
             this.OrderDate = DateTime.Now;
             this.Status = OrderStatus.Open;
             this.CreatedAt = DateTime.Now;
-            return this;
-
         }
 
         public IEnumerable<OrderItem> CreateOrderItemsFromCart(Cart cart, IBookStoreAPIContext db)
@@ -35,12 +35,12 @@ namespace BookStoreAPI.Models
             List<OrderItem> newOrderItems = new List<OrderItem>();
             foreach (CartItem item in cart.CartItems)
             {
-                if (BookAvailable(item.BookId, item.Quantity, db))
+                if (BookAvailable(item.Book.Id, item.Quantity, db))
                 {
                     OrderItem orderItem = new OrderItem();
                     orderItem.Id = Util.Util.GetNewId();
                     orderItem.OrderId = this.Id;
-                    orderItem.BookId = item.BookId;
+                    orderItem.BookId = item.Book.Id;
                     orderItem.Quantity = item.Quantity;
                     orderItem.SellingPrice = db.Books.Find(orderItem.BookId).Price;
                     orderItem.ShippingStatus = Enums.ShippingStatus.NotShipped;
@@ -48,15 +48,23 @@ namespace BookStoreAPI.Models
                     newOrderItems.Add(orderItem);
                 }
             }
-
+            UpdateTotal(newOrderItems, db);
             return newOrderItems;
         }
 
-
+        private void UpdateTotal(IEnumerable<OrderItem> orderItems, IBookStoreAPIContext db)
+        {
+            decimal total = 0;
+            foreach (OrderItem item in orderItems)
+            {
+                total += db.Books.Find(item.BookId).Price;
+            }
+            this.TotalAmount = total;
+        }
         private bool BookAvailable(string id, int quantity, IBookStoreAPIContext db)
         {
-            return db.Books.Count(a => a.Id == id && a.InStock >= quantity) == 1;
-            //return BookstoreService.BookAvailable(id, quantity, db);
+            //return db.Books.Count(a => a.Id == id && a.InStock >= quantity) == 1;
+            return BookstoreService.BookAvailable(id, quantity, db);
         }
     }
 }
