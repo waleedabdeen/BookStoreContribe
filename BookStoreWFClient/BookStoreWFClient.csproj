@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0DD424CD-A67F-4509-8578-8CF4372D8179}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BookStoreWFClient</RootNamespace>
+    <AssemblyName>BookStoreWFClient</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\ApiResponse.cs" />
+    <Compile Include="Model\BasicForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Model\BookDTO.cs" />
+    <Compile Include="Model\IForm.cs" />
+    <Compile Include="Modules\Account\UserAccontForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Account\UserAccontForm.Designer.cs">
+      <DependentUpon>UserAccontForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Account\UserAccountController.cs" />
+    <Compile Include="Modules\ApiModule\BookstoreService.cs" />
+    <Compile Include="Model\Cart.cs" />
+    <Compile Include="Model\CartItem.cs" />
+    <Compile Include="Model\OrderDetailsDTO.cs" />
+    <Compile Include="Model\OrderItemDTO.cs" />
+    <Compile Include="Modules\ApiModule\RequestToServerService.cs" />
+    <Compile Include="Modules\ApiModule\ResponseReaderService.cs" />
+    <Compile Include="Model\OrderStatus.cs" />
+    <Compile Include="Model\ReturnStatus.cs" />
+    <Compile Include="Model\IApiResponse.cs" />
+    <Compile Include="Model\IBookDTO.cs" />
+    <Compile Include="Model\IBookstoreService.cs" />
+    <Compile Include="Model\ICart.cs" />
+    <Compile Include="Model\ICartItem.cs" />
+    <Compile Include="Model\IItemDTO.cs" />
+    <Compile Include="Modules\BookBrowserModule\BookBrowserController.cs" />
+    <Compile Include="Modules\BookBrowserModule\BookBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\BookBrowserModule\BookBrowserForm.Designer.cs">
+      <DependentUpon>BookBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BookDetailsModule\BookDetailsController.cs" />
+    <Compile Include="Modules\BookDetailsModule\BookDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\BookDetailsModule\BookDetailsForm.Designer.cs">
+      <DependentUpon>BookDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BooksGridModule\BooksGridController.cs" />
+    <Compile Include="Modules\BooksGridModule\BooksGridForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\BooksGridModule\BooksGridForm.Designer.cs">
+      <DependentUpon>BooksGridForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Bookstore\BookstoreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Bookstore\BookstoreForm.Designer.cs">
+      <DependentUpon>BookstoreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Bookstore\BookstoreController.cs" />
+    <Compile Include="Modules\CartModule\CartController.cs" />
+    <Compile Include="Modules\CartModule\CartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\CartModule\CartForm.Designer.cs">
+      <DependentUpon>CartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\CheckoutModule\CheckoutController.cs" />
+    <Compile Include="Modules\CheckoutModule\CheckoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\CheckoutModule\CheckoutForm.Designer.cs">
+      <DependentUpon>CheckoutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\LoggingModule\LoggingService.cs" />
+    <Compile Include="Modules\Navigation\NavigationController.cs" />
+    <Compile Include="Modules\Navigation\NavigationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Navigation\NavigationForm.Designer.cs">
+      <DependentUpon>NavigationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\OrderModule\OrderController.cs" />
+    <Compile Include="Modules\OrderModule\OrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\OrderModule\OrderForm.Designer.cs">
+      <DependentUpon>OrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerConfig.cs" />
+    <Compile Include="Util\Culture.cs" />
+    <Compile Include="Util\DrawingSets.cs" />
+    <Compile Include="Util\Global.cs" />
+    <Compile Include="Util\User.cs" />
+    <EmbeddedResource Include="Modules\Account\UserAccontForm.resx">
+      <DependentUpon>UserAccontForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\BookBrowserModule\BookBrowserForm.resx">
+      <DependentUpon>BookBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\BookDetailsModule\BookDetailsForm.resx">
+      <DependentUpon>BookDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\BooksGridModule\BooksGridForm.resx">
+      <DependentUpon>BooksGridForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Bookstore\BookstoreForm.resx">
+      <DependentUpon>BookstoreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\CartModule\CartForm.resx">
+      <DependentUpon>CartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\CheckoutModule\CheckoutForm.resx">
+      <DependentUpon>CheckoutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Navigation\NavigationForm.resx">
+      <DependentUpon>NavigationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\OrderModule\OrderForm.resx">
+      <DependentUpon>OrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\book2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\home_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orders.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_filled.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
