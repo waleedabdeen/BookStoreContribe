@@ -1,0 +1,72 @@
+﻿@model IEnumerable<BookStoreASPClient.Models.CartItem>
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cart</h2>
+
+@if (ViewBag.Message != null)
+{
+    <span class="text-danger">@ViewBag.Message</span>
+}
+
+@using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Book.Title, "Details", "Book", new { Id = item.Book.Id })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Cart", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        <div>
+                            <input type="hidden" id="id" name="id" value=@item.Id />
+                            <input type="submit" id="submitId" value="Delete" class="form-control btn btn-danger" />
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <input type="submit" value="Checkout" class="btn btn-primary" />
+}
+
+    <button type="button" onclick="location.href='@Url.Action("CheckOut", "Order",Model)'">Check</button>
+
+
+@*@Ajax.ActionLink("Checkout", "CheckOut", "Order", Model, new AjaxOptions { HttpMethod = "POST" })*@
+@*@Html.ActionLink("Checkout", "CheckOut", "Order", Model, FormMethod.Post, new { @class = "btn btn-warning" })*@

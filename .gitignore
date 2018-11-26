@@ -22,3 +22,13 @@ packages/
 BookStoreAPI\.Tests/obj/
 
 BookStoreAPI\.Tests/bin/
+
+BookStoreWFClient/bin/
+
+BookStoreWFClient/obj/
+
+BookStoreASPClient/bin/
+
+BookStoreASPClient/obj/
+
+BookStoreASPClient\.Tests/

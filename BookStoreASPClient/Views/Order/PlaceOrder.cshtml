@@ -1,0 +1,65 @@
+﻿@model IEnumerable<BookStoreASPClient.Models.CartItem>
+
+@{
+    ViewBag.Title = "PlaceOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Place Order</h2>
+
+@if (ViewBag.Message != null)
+{
+    <span class="danger">@ViewBag.Message</span>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Book.Title, "Details", "Book", new { Id = item.Book.Id })
+                @if (!item.IsAvailable) {
+                    <span class="text-danger"> - (Not Available)</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @using (Html.BeginForm("Delete", "Cart", FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    <div>
+                        <input type="hidden" id="id" name="id" value=@item.Id />
+                        <input type="submit" id="submitId" value="Delete" class="form-control btn btn-danger" />
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Place Order", "PlaceOrder", "Order", null, new { @class = "btn btn-warning" })

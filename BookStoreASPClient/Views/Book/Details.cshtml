@@ -1,0 +1,60 @@
+﻿@model BookStoreASPClient.Models.BookDTO
+
+@{
+    ViewBag.Title = "Book Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BookDTO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    @using (Html.BeginForm("Add", "Cart", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div>
+            <input type="hidden" id="id" name="id" value=@Model.Id />
+            <input type="number" id="quantity" name="quantity" class="form-control" value="1" />
+            <input type="submit" id="submitId" value="Add to Cart" class="form-control btn btn-warning" />
+        </div>
+    }
+    @{
+        if (ViewBag.Message != null)
+        {
+            <span>
+                Result :@ViewBag.Message
+            </span>
+        }
+    }
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

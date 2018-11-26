@@ -1,0 +1,76 @@
+﻿@model IEnumerable<BookStoreASPClient.Models.CartItem>
+
+@{
+    ViewBag.Title = "Check";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Check</h2>
+
+
+@using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Book.Title, "Details", "Book", new { Id = item.Book.Id })
+                    @if (!item.IsAvailable)
+                    {
+                        <span class="text-danger"> - (Not Available)</span>
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Cart", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        <div>
+                            <input type="hidden" id="id" name="id" value=@item.Id />
+                            <input type="submit" id="submitId" value="Delete" class="form-control btn btn-danger" />
+                        </div>
+                    }
+                </td>
+            </tr>
+
+            //hidden form
+
+            <input type="hidden" name="Book.Id[]" value="@item.Book.Id" />
+            <input type="hidden" name="Book.Title[]" value="@item.Book.Title" />
+            <input type="hidden" name="Book.Author[]" value="@item.Book.Author" />
+            <input type="hidden" name="Quantity[]" value="@item.Quantity" />
+            <input type="submit" name="submit" value="Place"/>
+        }
+
+    </table>
+
+}
+
+

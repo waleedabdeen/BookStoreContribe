@@ -1,0 +1,86 @@
+﻿@model BookStoreASPClient.Models.OrderCreatedViewModel
+
+@{
+    ViewBag.Title = "OrderCreated";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Order Created</h2>
+
+<div>
+    <h4>Order details</h4>
+    <hr />
+    @if (ViewBag.Message != null)
+    {
+        <span class="@("details " + (ViewBag.Created ? "text-success" : "text-danger"))">@ViewBag.Message</span>
+    }
+    @if (ViewBag.Created)
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderDetailsDTO.CustomerId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OrderDetailsDTO.CustomerId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderDetailsDTO.OrderDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OrderDetailsDTO.OrderDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderDetailsDTO.TotalAmount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OrderDetailsDTO.TotalAmount)
+            </dd>
+        </dl>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Author
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Quanitiy
+                    </th>
+                </tr>
+                @foreach (var item in Model.CartItems)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.Book.Title, "Details", "Book", new { Id = item.Book.Id })
+                            @if (!item.IsAvailable)
+                            {
+                                <span class="text-warning"> - (Not Ordered)</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Book.Author)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Book.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                    </tr>
+
+                }
+            </table>
+        </div>
+    }
+
+</div>
