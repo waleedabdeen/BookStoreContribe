@@ -222,6 +222,7 @@
     <Compile Include="Interfaces\ICartItem.cs" />
     <Compile Include="Interfaces\IItemDTO.cs" />
     <Compile Include="Interfaces\IOrder.cs" />
+    <Compile Include="LoggingModule\LoggingService.cs" />
     <Compile Include="Migrations\201811031415421_Initial.cs" />
     <Compile Include="Migrations\201811031415421_Initial.Designer.cs">
       <DependentUpon>201811031415421_Initial.cs</DependentUpon>

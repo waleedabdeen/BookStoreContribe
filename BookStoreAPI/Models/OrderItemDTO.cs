@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BookStoreAPI.Enums;
-using BookStoreAPI.Interfaces;
+﻿using BookStoreAPI.Interfaces;
 
 namespace BookStoreAPI.Models
 {

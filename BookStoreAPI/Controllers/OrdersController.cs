@@ -7,7 +7,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using BookStoreAPI.Models;
 using BookStoreAPI.Interfaces;
-using System.Web;
 using Microsoft.AspNet.Identity;
 
 namespace BookStoreAPI.Controllers
@@ -23,6 +22,7 @@ namespace BookStoreAPI.Controllers
         {
             db = context;
         }
+
         // GET: api/Orders
         [HttpGet]
         [Route("api/Orders")]
@@ -114,46 +114,16 @@ namespace BookStoreAPI.Controllers
         }
 
         // POST: api/Orders
-        //[ResponseType(typeof(Order))]
-        //public async Task<IHttpActionResult> PostOrder(Order order)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.Orders.Add(order);
-
-        //    try
-        //    {
-        //        await db.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (OrderExists(order.Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return CreatedAtRoute("DefaultApi", new { id = order.Id }, order);
-        //}
-
-        // POST: api/Orders
         [ResponseType(typeof(Order))]
         [Route("api/Orders")]
         public async Task<IHttpActionResult> PostOrder(Cart cart)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             Order order = new Order();
-            order.CreateOrderFromCart(cart, db);
+            order.InitiateNewOrder();
             order.CustomerId = User.Identity.GetUserId();
             IEnumerable<OrderItem> orderItems = order.CreateOrderItemsFromCart(cart, db);
 
@@ -193,24 +163,6 @@ namespace BookStoreAPI.Controllers
                 TotalAmount = order.TotalAmount
             };
             return Created("api/Orders", new ApiResponse(orderDetailsDTO));
-            //return Ok(order.Id);
-            //return CreatedAtRoute("DefaultApi", new { id = order.Id }, order);
-        }
-
-        // DELETE: api/Orders/5
-        [ResponseType(typeof(Order))]
-        public async Task<IHttpActionResult> DeleteOrder(string id)
-        {
-            Order order = await db.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            db.Orders.Remove(order);
-            await db.SaveChangesAsync();
-
-            return Ok(order);
         }
 
         protected override void Dispose(bool disposing)

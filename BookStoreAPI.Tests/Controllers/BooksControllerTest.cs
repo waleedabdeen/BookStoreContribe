@@ -85,13 +85,12 @@ namespace BookStoreAPI.Tests.Controllers
             var cartItem = new CartItem { Book = testBookDTO , Quantity = 1 };
             var cart = new Cart()
             {
-                Id = "TheCartId",
                 CartItems = new List<CartItem> { cartItem }
             };
 
             // Act
             var controller = new BooksController(context);
-            var result = await controller.Post(cart) as IHttpActionResult;
+            var result = await controller.PostAvailability(cart) as IHttpActionResult;
             var contentResult = result as OkNegotiatedContentResult<ApiResponse>;
             var availableBooks = contentResult.Content.Data as IEnumerable<IBookDTO>;
 
@@ -112,13 +111,12 @@ namespace BookStoreAPI.Tests.Controllers
             var cartItem = new CartItem { Book = DemoData.GetDTOfromBook(testBook), Quantity = 4 };
             var cart = new Cart
             {
-                Id = "TheCartId",
                 CartItems = new List<CartItem> { cartItem }
             };
 
             // Act
             var controller = new BooksController(context);
-            var result = await controller.Post(cart) as IHttpActionResult;
+            var result = await controller.PostAvailability(cart) as IHttpActionResult;
             var contentResult = result as OkNegotiatedContentResult<ApiResponse>;
             var availableBooks = contentResult.Content.Data as IEnumerable<IBookDTO>;
 

@@ -101,22 +101,6 @@ namespace BookStoreAPI.Controllers
             return CreatedAtRoute("DefaultApi", new { id = orderItem.Id }, orderItem);
         }
 
-        // DELETE: api/OrderItems/5
-        [ResponseType(typeof(OrderItem))]
-        public async Task<IHttpActionResult> DeleteOrderItem(string id)
-        {
-            OrderItem orderItem = await db.OrderItems.FindAsync(id);
-            if (orderItem == null)
-            {
-                return NotFound();
-            }
-
-            db.OrderItems.Remove(orderItem);
-            await db.SaveChangesAsync();
-
-            return Ok(orderItem);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

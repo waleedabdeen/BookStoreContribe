@@ -37,12 +37,12 @@ namespace BookStoreAPI.Tests
 
         public static Cart GetAvailableDemoCart()
         {
-            return new Cart { Id = "TheCartId", CartItems = new List<CartItem> { new CartItem(GetDemoBookDTO(), 1) } };
+            return new Cart { CartItems = new List<CartItem> { new CartItem(GetDemoBookDTO(), 1) } };
         }
 
         public static Cart GetOutOfStockDemoCart()
         {
-            return new Cart { Id = "TheCartId", CartItems = new List<CartItem> { new CartItem(GetDemoBookDTO(), 4) } };
+            return new Cart { CartItems = new List<CartItem> { new CartItem(GetDemoBookDTO(), 4) } };
         }
     }
 }

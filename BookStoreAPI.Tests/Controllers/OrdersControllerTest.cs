@@ -72,7 +72,6 @@ namespace BookStoreAPI.Tests.Controllers
             context.Books.Add(testBook);
             var cart = new Cart
             {
-                Id = "TheCartId",
                 //this item is in stock
                 CartItems =
                 new List<CartItem> { new CartItem(DemoData.GetDTOfromBook(testBook), 1) }
@@ -99,7 +98,6 @@ namespace BookStoreAPI.Tests.Controllers
             context.Books.Add(testBook);
             var cart = new Cart
             {
-                Id = "TheCartId",
                 //this item is out of stock
                 CartItems =
                 new List<CartItem> { new CartItem(DemoData.GetDTOfromBook(testBook), 5) }

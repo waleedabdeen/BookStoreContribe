@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using BookStoreAPI.Interfaces;
 using BookStoreAPI.Enums;
 
@@ -17,14 +15,13 @@ namespace BookStoreAPI.Models
 
         public OrderStatus Status { get; set; }
 
-        public Decimal TotalAmount { get; set; }
+        public decimal TotalAmount { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        public void CreateOrderFromCart(Cart cart, IBookStoreAPIContext db)
+        public void InitiateNewOrder()
         {
             this.Id = Util.Util.GetNewId();
-            this.CustomerId = cart.Id;
             this.OrderDate = DateTime.Now;
             this.Status = OrderStatus.Open;
             this.CreatedAt = DateTime.Now;
@@ -63,7 +60,6 @@ namespace BookStoreAPI.Models
         }
         private bool BookAvailable(string id, int quantity, IBookStoreAPIContext db)
         {
-            //return db.Books.Count(a => a.Id == id && a.InStock >= quantity) == 1;
             return BookstoreService.BookAvailable(id, quantity, db);
         }
     }

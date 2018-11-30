@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace BookStoreAPI.Models
+﻿namespace BookStoreAPI.Models
 {
     public class ApiResponse : Interfaces.IApiResponse
     {
@@ -13,11 +8,6 @@ namespace BookStoreAPI.Models
 
         public object Data { get; set; }
 
-        public ApiResponse()
-        {
-            Error = false;
-            Message = "Ok";
-        }
         public ApiResponse(object data)
         {
             Error = false;

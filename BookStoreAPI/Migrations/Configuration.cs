@@ -10,7 +10,7 @@
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(BookStoreAPI.Models.ApplicationDbContext context)
+        protected override void Seed(Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
