@@ -6,7 +6,6 @@ using BookStoreASPClient.Models;
 using BookStoreASPClient.Modules.LoggingModule;
 using BookStoreASPClient.Interfaces;
 
-
 namespace BookStoreASPClient.Modules.ApiModule
 {
     public class ResponseReader
@@ -93,11 +92,11 @@ namespace BookStoreASPClient.Modules.ApiModule
                 {
                     return result;
                 }
-                return result = null; /*(List<string>)apiResponse.Data.Ids;*/
+                return result = null; 
             }
             catch (Exception e)
             {
-                //LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
+                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
                 return result;
             }
         }
@@ -114,7 +113,7 @@ namespace BookStoreASPClient.Modules.ApiModule
             }
             catch (Exception e)
             {
-                //LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
+                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
             }
 
             try
@@ -131,7 +130,7 @@ namespace BookStoreASPClient.Modules.ApiModule
             }
             catch (Exception e)
             {
-                //LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
+                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
                 return null;
             }
 
@@ -147,10 +146,9 @@ namespace BookStoreASPClient.Modules.ApiModule
             }
             catch (Exception e)
             {
-                //LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
+                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
                 return "ERROR: Something went wrong";
             }
-
         }
     }
 }

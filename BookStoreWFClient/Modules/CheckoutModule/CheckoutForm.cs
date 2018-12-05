@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookStoreWFClient.Util;
 using BookStoreWFClient.Model;
@@ -15,12 +8,13 @@ namespace BookStoreWFClient.Modules.CheckoutModule
 {
     public partial class CheckoutForm : BasicForm
     {
-        CheckoutController controller = new CheckoutController();
+        CheckoutController controller;
         
         public CheckoutForm()
         {
             InitializeComponent();
             InitializeEvents();
+            controller = new CheckoutController(this);
         }
 
         private void DrawCOBooksItems()

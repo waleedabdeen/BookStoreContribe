@@ -148,7 +148,7 @@ namespace BookStoreAPI.Controllers
 
         private bool BookAvailable(string id, int quantity)
         {
-            return BookstoreService.BookAvailable(id, quantity, db);
+            return DbFunctions.BookAvailable(id, quantity, db);
         }
     }
 }

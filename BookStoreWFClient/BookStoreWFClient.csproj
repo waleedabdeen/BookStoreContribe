@@ -54,12 +54,18 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Model\BookDTO.cs" />
-    <Compile Include="Model\IForm.cs" />
-    <Compile Include="Modules\Account\UserAccontForm.cs">
+    <Compile Include="Interfaces\IForm.cs" />
+    <Compile Include="Modules\Account\RegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modules\Account\UserAccontForm.Designer.cs">
-      <DependentUpon>UserAccontForm.cs</DependentUpon>
+    <Compile Include="Modules\Account\RegisterForm.Designer.cs">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Account\UserAccountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Account\UserAccountForm.Designer.cs">
+      <DependentUpon>UserAccountForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Account\UserAccountController.cs" />
     <Compile Include="Modules\ApiModule\BookstoreService.cs" />
@@ -71,12 +77,12 @@
     <Compile Include="Modules\ApiModule\ResponseReaderService.cs" />
     <Compile Include="Model\OrderStatus.cs" />
     <Compile Include="Model\ReturnStatus.cs" />
-    <Compile Include="Model\IApiResponse.cs" />
-    <Compile Include="Model\IBookDTO.cs" />
-    <Compile Include="Model\IBookstoreService.cs" />
-    <Compile Include="Model\ICart.cs" />
-    <Compile Include="Model\ICartItem.cs" />
-    <Compile Include="Model\IItemDTO.cs" />
+    <Compile Include="Interfaces\IApiResponse.cs" />
+    <Compile Include="Interfaces\IBookDTO.cs" />
+    <Compile Include="Interfaces\IBookstoreService.cs" />
+    <Compile Include="Interfaces\ICart.cs" />
+    <Compile Include="Interfaces\ICartItem.cs" />
+    <Compile Include="Interfaces\IItemDTO.cs" />
     <Compile Include="Modules\BookBrowserModule\BookBrowserController.cs" />
     <Compile Include="Modules\BookBrowserModule\BookBrowserForm.cs">
       <SubType>Form</SubType>
@@ -141,8 +147,11 @@
     <Compile Include="Util\DrawingSets.cs" />
     <Compile Include="Util\Global.cs" />
     <Compile Include="Util\User.cs" />
-    <EmbeddedResource Include="Modules\Account\UserAccontForm.resx">
-      <DependentUpon>UserAccontForm.cs</DependentUpon>
+    <EmbeddedResource Include="Modules\Account\RegisterForm.resx">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Account\UserAccountForm.resx">
+      <DependentUpon>UserAccountForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\BookBrowserModule\BookBrowserForm.resx">
       <DependentUpon>BookBrowserForm.cs</DependentUpon>

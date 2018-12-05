@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using BookStoreWFClient.Model;
 using BookStoreWFClient.Util;
+using BookStoreWFClient.Interfaces;
 
 namespace BookStoreWFClient.Modules.Navigation
 {
@@ -38,9 +38,13 @@ namespace BookStoreWFClient.Modules.Navigation
 
         private void EH_BUTTON_CLICK_ACCOUNT(object sender, EventArgs e)
         {
-            if (!Global.IsLoggedIn())
+            if (!User.IsLoggedIn())
             {
                 controller.ShowUserAccountForm();
+            }
+            else
+            {
+                MessageBox.Show("Already logged in as: " + User.Email,"Logged In" ,MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

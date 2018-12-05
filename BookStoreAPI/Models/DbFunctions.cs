@@ -3,7 +3,7 @@ using BookStoreAPI.Interfaces;
 
 namespace BookStoreAPI.Models
 {
-    public class BookstoreService
+    public class DbFunctions
     {
         public static bool BookAvailable(string id, int quantity, IBookStoreAPIContext db)
         {

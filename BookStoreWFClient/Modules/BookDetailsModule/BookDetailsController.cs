@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookStoreWFClient.Model;
-using BookStoreWFClient.Modules.BookDetailsModule;
-using BookStoreWFClient.Util;
+﻿using BookStoreWFClient.Model;
+using System.Windows.Forms;
 
 namespace BookStoreWFClient.Modules.BookDetailsModule
 {
     class BookDetailsController
     {
+        private Form form;
+        public BookDetailsController(Form _form)
+        {
+            form = _form;
+        }
+
         public void ShowBookDetailsForm(BookDTO book)
         {
             BookDetailsForm form = new BookDetailsForm(book);

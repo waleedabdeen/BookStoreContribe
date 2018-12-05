@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookStoreWFClient.Model;
@@ -12,6 +9,7 @@ using BookStoreWFClient.Util;
 using BookStoreWFClient.Modules.ApiModule;
 using System.Threading;
 using System.Globalization;
+using BookStoreWFClient.Interfaces;
 
 namespace BookStoreWFClient.Modules.BooksGridModule
 {
@@ -19,8 +17,7 @@ namespace BookStoreWFClient.Modules.BooksGridModule
     {
         IEnumerable<IBookDTO> books = new List<IBookDTO>();
         BookstoreService bookstoreService = new BookstoreService();
-        BooksGridController controller = new BooksGridController();
-        Form bookDetailsForm;
+        BooksGridController controller;        
         string keyword;
 
         public BooksGridForm(string _keyword = null)
@@ -28,6 +25,7 @@ namespace BookStoreWFClient.Modules.BooksGridModule
             keyword = _keyword;
             InitializeComponent();
             InitializeEvents();
+            controller = new BooksGridController(this);
         }
 
         public void RefreshBooks(string _keyword = null)
@@ -47,40 +45,32 @@ namespace BookStoreWFClient.Modules.BooksGridModule
             Global.BooksRequestSent = true;
             layoutBooks.Controls.Clear();
             ShowLoadingMessage();
-            //check predraw
             //Get the books from server
-            Task<IEnumerable<IBookDTO>> getBooksTask = controller.GetBooksFromService(keyword);
-            getBooksTask.Start();
-            books = await getBooksTask;
+            books = await controller.GetBooksFromService(keyword);
             //Draw Books
-            Task drawTask = getBooksTask.ContinueWith((task) =>
+            if (books == null || books.Count() == 0)
             {
-                if (task.Result == null || task.Result.Count() == 0)
+                //TODO show no result
+                HideLoadingMessage();
+                ShowNoResultMessage();
+            }
+            else
+            {
+                DrawHomeBooksItems();
+                HideLoadingMessage();
+                this.Invoke(new MethodInvoker(delegate
                 {
-                    //TODO show no result
-                    HideLoadingMessage();
-                    ShowNoResultMessage();
-                }
-                else
-                {
-                    DrawHomeBooksItems();
-                    HideLoadingMessage();
-                    this.Invoke(new MethodInvoker(delegate
-                    {
-                        layoutBooks.Visible = true;
-                    }));
-                }
-                Global.BooksRequestSent = false;
-            });
+                    layoutBooks.Visible = true;
+                }));
+            }
+            Global.BooksRequestSent = false;
         }
 
         private void DrawHomeBooksItems()
         {
-            /*books = (List<Book>)bookstore.Books*/
-            ;
             if (books == null)
             {
-                //TODO show no results
+                ShowNoResultMessage();
                 return;
             }
             int numberOfBooks = books.Count();
@@ -181,6 +171,7 @@ namespace BookStoreWFClient.Modules.BooksGridModule
                 column = 0;
                 row++;
             }
+
             // add the control to the interface
 
             // invoke required to solve the crose threading issue

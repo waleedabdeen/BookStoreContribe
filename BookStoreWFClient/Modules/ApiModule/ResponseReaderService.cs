@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using BookStoreWFClient.Model;
+using BookStoreWFClient.Interfaces;
 using BookStoreWFClient.Modules.LoggingModule;
 
 namespace BookStoreWFClient.Modules.ApiModule
@@ -27,12 +28,27 @@ namespace BookStoreWFClient.Modules.ApiModule
 
         }
 
-        public static IEnumerable<IBookDTO> GetBooks(string jsonString)
+        public static IBookDTO GetBookDetails(string jsonString)
         {
             ApiResponse apiResponse = GetApiResponse(jsonString);
             if (apiResponse.Error) return null;
             try
             {
+                JObject jObJect = (JObject)apiResponse.Data;
+                return jObJect.ToObject<BookDTO>();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static IEnumerable<IBookDTO> GetBooks(string jsonString)
+        {
+            ApiResponse apiResponse = GetApiResponse(jsonString);
+            try
+            {
+                if (apiResponse.Error) return null;
                 JArray jArray = (JArray)apiResponse.Data;
                 return jArray.ToObject<IEnumerable<BookDTO>>();
             }
@@ -76,7 +92,7 @@ namespace BookStoreWFClient.Modules.ApiModule
                 {
                     return result;
                 }
-                return result = null; /*(List<string>)apiResponse.Data.Ids;*/
+                return result = null;
             }
             catch (Exception e)
             {
@@ -117,7 +133,6 @@ namespace BookStoreWFClient.Modules.ApiModule
                 LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
                 return null;
             }
-
         }
 
         public static string TokenString(string jsonString)
@@ -133,7 +148,6 @@ namespace BookStoreWFClient.Modules.ApiModule
                 LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
                 return "ERROR: Something went wrong";
             }
-
         }
     }
 }

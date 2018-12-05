@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using BookStoreWFClient.Modules.Navigation;
 using BookStoreWFClient.Modules.BookBrowserModule;
 using BookStoreWFClient.Model;
@@ -15,8 +10,10 @@ namespace BookStoreWFClient.Modules.Bookstore
     public class BookstoreController
     {
         private NavigationForm navigation;        
-
         private Form content;
+
+        public BookstoreController()
+        { }
 
         public NavigationForm Navigation
         {
@@ -49,28 +46,27 @@ namespace BookStoreWFClient.Modules.Bookstore
             return new BookBrowserForm();
         }
 
-        public BookstoreController() { }
-
         public async void CheckOut(Cart cart, BasicForm sender)
         {
             BookstoreService bookstoreService = new BookstoreService();
-            Task<ReturnStatus> taskCheckOut = bookstoreService.CheckOut(Global.Cart, "");
-            taskCheckOut.Start();
-            ReturnStatus checkoutStatus = await taskCheckOut;
-            if (checkoutStatus == ReturnStatus.Undefined)
+            Cart updatedCart = await bookstoreService.CheckOut(Global.Cart, User.Token);
+            if (updatedCart == null)
             {
-                // the post request will handle unauthorized access
-                // and it will show the error message
+                Global.MainForm.ShowUnauthorizedErrorMessage();
+                Global.CanCheckOut = false;
                 return;
             }
-            else if (checkoutStatus == ReturnStatus.No)
+
+            //assuming all items is available
+            Global.CanCheckOut = true;
+            foreach(CartItem item in updatedCart.CartItems)
             {
-                Global.CanCheckOut = false;
-            }
-            else
-            {
-                Global.CanCheckOut = true;
-            }
+                if (!item.IsAvailable)
+                {
+                    //if one item is not available then can not check out (show message)
+                    Global.CanCheckOut = false;
+                }
+            }            
             ShowCheckOutForm();
         }
 

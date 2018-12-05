@@ -7,8 +7,6 @@ namespace BookStoreASPClient.Modules.ApiModule
 {
     public class BookstoreService : IBookstoreService
     {
-        private readonly string logTag = "Bookstore";
-
         public BookstoreService() {}
 
         // return the details of one book using id

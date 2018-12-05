@@ -207,7 +207,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OrderItemsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\ShippingStatus.cs" />
@@ -237,7 +236,7 @@
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookDTO.cs" />
-    <Compile Include="Models\BookstoreService.cs" />
+    <Compile Include="Models\DbFunctions.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\IdentityModels.cs" />

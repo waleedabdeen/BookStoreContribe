@@ -16,7 +16,7 @@ namespace BookStoreASPClient.Controllers
         // GET: Account
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Account/Login
@@ -35,7 +35,7 @@ namespace BookStoreASPClient.Controllers
                 var result = await bookstoreService.GetToken(model.Email, model.Password);
                 if (result.StartsWith("ERROR"))
                 {
-                    ModelState.AddModelError("", result);
+                    ModelState.AddModelError("", "Wrong username or password!");
                     return View(model);
                 }
                 AccessToken.Set(result);
@@ -63,7 +63,7 @@ namespace BookStoreASPClient.Controllers
                     var result = await bookstoreService.RegiserNewAccount(model.Email, model.Password);
                     if (string.IsNullOrEmpty(result))
                     {
-                        ModelState.AddModelError("", "Wrong username or password!");
+                        ModelState.AddModelError("", "Something went wrong!");
                         return View(model);
                     }
                     else if (result.StartsWith("ERROR"))
@@ -78,10 +78,7 @@ namespace BookStoreASPClient.Controllers
                         return RedirectToAction("Login");
                     }
                 }
-                
-                // TODO: Add insert logic here
                 return View(model);
-
             }
             catch
             {

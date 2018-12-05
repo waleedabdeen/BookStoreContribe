@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookStoreWFClient.Model;
 using BookStoreWFClient.Util;
 using BookStoreWFClient.Modules.ApiModule;
-using BookStoreWFClient.Modules.CartModule;
-
-using System.Threading;
-using System.Globalization;
+using BookStoreWFClient.Interfaces;
 
 namespace BookStoreWFClient.Modules.BookBrowserModule
 {
     public partial class BookBrowserForm : BasicForm, IForm
     {
-        IEnumerable<IBookDTO> books = new List<IBookDTO>();
-        BookstoreService bookstoreService = new BookstoreService();
-        BookBrowserController controller = new BookBrowserController();
+        IEnumerable<IBookDTO> books;
+        BookstoreService bookstoreService;
+        BookBrowserController controller;
         Form bookDetailsForm;
         string keyword;
 
@@ -31,6 +22,9 @@ namespace BookStoreWFClient.Modules.BookBrowserModule
             InitializeComponent();
             InitializeEvents();
             Global.BookBrowserForm = this;
+            bookstoreService = new BookstoreService();
+            controller = new BookBrowserController(this);
+            books = new List<IBookDTO>();
         }
 
         public void RefreshBooks(string _keyword = null)

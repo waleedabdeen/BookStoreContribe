@@ -1,4 +1,5 @@
-﻿
+﻿using BookStoreWFClient.Interfaces;
+
 namespace BookStoreWFClient.Model
 {
     public class CartItem : ICartItem

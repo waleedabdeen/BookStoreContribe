@@ -1,28 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookStoreWFClient.Model;
 using BookStoreWFClient.Util;
-
 
 namespace BookStoreWFClient.Modules.BookDetailsModule
 {
     public partial class BookDetailsForm : BasicForm
     {
         BookDTO book;
-        BookDetailsController controller = new BookDetailsController();
+        BookDetailsController controller;
 
         public BookDetailsForm(BookDTO _book)
         {
             this.book = _book;
             InitializeComponent();
             InitializeEvents();
+            controller = new BookDetailsController(this);
         }
 
         private void DisplayBookDetails()
@@ -56,8 +49,6 @@ namespace BookStoreWFClient.Modules.BookDetailsModule
             {
                 MessageBox.Show(e.ToString());
             }
-            
         }
-
     }
 }

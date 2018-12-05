@@ -5,12 +5,14 @@ using System.Text;
 using Newtonsoft.Json;
 using BookStoreWFClient.Model;
 using System.Collections.Generic;
-using BookStoreWFClient.Util;
+using BookStoreWFClient.Modules.LoggingModule;
 
 namespace BookStoreWFClient.Modules.ApiModule
 {
     public class RequestToServer
     {
+        private static readonly string logTag = "RequestToServer";
+        
         // this variable will be sent with each request as UserAgent
         private static readonly string agentDescription = ".NET Framework WinForms - Contribe";
 
@@ -39,13 +41,12 @@ namespace BookStoreWFClient.Modules.ApiModule
             }
             catch (Exception e)
             {
-                //TODO Log
-                //throw new Exception("Could not connect to server", e);
+                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
                 return "Error: " + e.ToString(); ;
             }
         }
 
-        private static string Post(string link, byte[] payload, string contentType = null, bool requiresAuthorization = false)
+        private static string Post(string link, byte[] payload, string contentType = null, string accessToken = null)
         {
             string responseString = "";
             WebRequest webRequest = WebRequest.Create(link);
@@ -54,17 +55,17 @@ namespace BookStoreWFClient.Modules.ApiModule
             webRequest.ContentLength = payload.Length;
             if (contentType == null || contentType == "json")
             {
-                webRequest.ContentType = "application/json";   
+                webRequest.ContentType = "application/json";
             }
             else
             {
                 webRequest.ContentType = "application/x-www-form-urlencoded";
             }
-            if (requiresAuthorization)
+            if (!string.IsNullOrEmpty(accessToken))
             {
-                webRequest.Headers["Authorization"] = "Bearer " + Global.Token;
+                webRequest.Headers["Authorization"] = "Bearer " + accessToken;
             }
-            
+
 
             using (Stream stream = webRequest.GetRequestStream())
             {
@@ -97,7 +98,6 @@ namespace BookStoreWFClient.Modules.ApiModule
                     webResponse = e.Response;
                     if (((HttpWebResponse)webResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        Global.MainForm.ShowUnauthorizedErrorMessage();
                         return "Error: Unauthorized";
                     }
                     Stream dataStream = webResponse.GetResponseStream();
@@ -110,15 +110,25 @@ namespace BookStoreWFClient.Modules.ApiModule
                     webResponse.Close();
                     return responseString;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    LoggingService.Log(LoggingService.LogType.error, ex.ToString(), logTag);
                     return "Error: " + e.ToString(); ;
                 }
             }
-
         }
 
-        public static string CheckBooksAvailability(Cart cart, string userId)
+        public static string RequestBookDetails(string id)
+        {
+            string link = ServerConfig.SERVER_ADDRESS + "/api/Books";
+            //build link by impeding the id of the book
+            if (!String.IsNullOrEmpty(id)) link += "/" + id;
+
+            string jsonResponse = Get(link);
+            return jsonResponse;
+        }
+
+        public static string CheckBooksAvailability(Cart cart, string accessToken)
         {
             string link = ServerConfig.SERVER_ADDRESS + "/api/Books/availability";
             if (string.IsNullOrEmpty(link))
@@ -128,10 +138,10 @@ namespace BookStoreWFClient.Modules.ApiModule
 
             string postString = JsonConvert.SerializeObject(cart, Formatting.Indented);
             byte[] postData = Encoding.ASCII.GetBytes(postString);
-            return Post(link, postData,"json",true);
+            return Post(link, postData, "json", accessToken);
         }
 
-        public static string CreateNewOrder(Cart cart, string userId)
+        public static string CreateNewOrder(Cart cart, string accessToken)
         {
             //TODO replace the link with the new order 
             string link = ServerConfig.SERVER_ADDRESS + "/api/Orders";
@@ -141,7 +151,7 @@ namespace BookStoreWFClient.Modules.ApiModule
             }
             string postString = JsonConvert.SerializeObject(cart, Formatting.Indented);
             byte[] postData = Encoding.ASCII.GetBytes(postString);
-            return Post(link, postData,"json", true);
+            return Post(link, postData, "json", accessToken);
         }
 
         public static string RequestBooks(string searchString = null)
@@ -154,18 +164,15 @@ namespace BookStoreWFClient.Modules.ApiModule
             return jsonResponse;
         }
 
-        public static string RequestNewId(string link)
+        public static string RequestNewId()
         {
-            if (string.IsNullOrEmpty(link))
-            {
-                throw new NullReferenceException("Not Allowed");
-            }
+            string link = ServerConfig.SERVER_ADDRESS +  "/api/util/getId";
             return Get(link);
         }
 
         public static string RegisterNewAccount(string email, string password)
         {
-            Dictionary<string, string> credentials = new Dictionary<string, string>() ;
+            Dictionary<string, string> credentials = new Dictionary<string, string>();
             credentials.Add("email", email);
             credentials.Add("password", password);
             credentials.Add("confirmPassword", password);
@@ -182,7 +189,7 @@ namespace BookStoreWFClient.Modules.ApiModule
                                 "&password=" + password;
             string link = ServerConfig.SERVER_ADDRESS + "/token";
             byte[] postData = Encoding.ASCII.GetBytes(postString);
-            return Post(link, postData,"form");
+            return Post(link, postData, "form");
         }
     }
 }

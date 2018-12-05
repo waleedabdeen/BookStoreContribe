@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookStoreWFClient.Model;
-using BookStoreWFClient.Util;
-using BookStoreWFClient.Modules.ApiModule;
+﻿using BookStoreWFClient.Util;
 using BookStoreWFClient.Modules.OrderModule;
+using BookStoreWFClient.Model;
 
 namespace BookStoreWFClient.Modules.CheckoutModule
 {
     class CheckoutController
     {
+        BasicForm form;
+
         public decimal Total{
             get
             {
@@ -19,8 +15,9 @@ namespace BookStoreWFClient.Modules.CheckoutModule
             }
         }
 
-        public CheckoutController()
+        public CheckoutController(BasicForm _form)
         {
+            form = _form;
         }
 
         private decimal CalculateTotal()

@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BookStoreWFClient.Model;
 using BookStoreWFClient.Util;
 
@@ -92,6 +84,7 @@ namespace BookStoreWFClient.Modules.CartModule
                 listCartBooks.Items.Add(cartItem);
             }
         }
+
         private void InitializeEvents()
         {
             btnDeleteBooks.Click += new EventHandler(EH_BUTTON_CLICK_REMOVE_FROM_CART);
@@ -102,6 +95,7 @@ namespace BookStoreWFClient.Modules.CartModule
         {
             listCartBooks.CheckedItems.OfType<CartItem>().ToList().ForEach(listCartBooks.Items.Remove);
         }
+
         private void EH_BUTTON_CLICK_CHECKOUT(object sender, EventArgs e)
         {
             controller.CheckOut(listCartBooks.Items);

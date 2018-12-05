@@ -5,13 +5,16 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using BookStoreASPClient.Models;
+using BookStoreASPClient.Modules.LoggingModule;
 
 namespace BookStoreASPClient.Modules.ApiModule
 {
     public class RequestToServer
     {
+        private static readonly string logTag = "RequestToServer";
+
         // this variable will be sent with each request as UserAgent
-        private static readonly string agentDescription = ".NET Framework WinForms - Contribe";
+        private static readonly string agentDescription = "ASP.NET Client - Contribe";
 
         private static string Get(string link)
         {
@@ -38,8 +41,7 @@ namespace BookStoreASPClient.Modules.ApiModule
             }
             catch (Exception e)
             {
-                //TODO Log
-                //throw new Exception("Could not connect to server", e);
+                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
                 return "Error: " + e.ToString(); ;
             }
         }
@@ -96,7 +98,6 @@ namespace BookStoreASPClient.Modules.ApiModule
                     webResponse = e.Response;
                     if (((HttpWebResponse)webResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        //Global.MainForm.ShowUnauthorizedErrorMessage();
                         return "Error: Unauthorized";
                     }
                     Stream dataStream = webResponse.GetResponseStream();
@@ -109,8 +110,9 @@ namespace BookStoreASPClient.Modules.ApiModule
                     webResponse.Close();
                     return responseString;
                 }
-                catch
+                catch(Exception ex)
                 {
+                    LoggingService.Log(LoggingService.LogType.error, ex.ToString(), logTag);
                     return "Error: " + e.ToString(); ;
                 }
             }

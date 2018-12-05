@@ -5,112 +5,81 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Order - Checkout</h2>
 
 @if (ViewBag.Message != null)
 {
     <span class="text-warning">@ViewBag.Message</span>
 }
-    <table class="table" id="CartItemsTable">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Book.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Book.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Book.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
+<table class="table" id="CartItemsTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
 
-        @using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        for (int i = 0; i < Model.Count(); i++)
         {
-            for (int i = 0; i < Model.Count(); i++)
-            {
-                @Html.HiddenFor(items => items.ToList()[i].Id)
-                @Html.HiddenFor(items => items.ToList()[i].IsAvailable)
-                @Html.HiddenFor(items => items.ToList()[i].Book.Id)
-                @Html.HiddenFor(items => items.ToList()[i].Book.Title)
-                @Html.HiddenFor(items => items.ToList()[i].Book.Author)
-                @Html.HiddenFor(items => items.ToList()[i].Book.Price)
-                @Html.HiddenFor(items => items.ToList()[i].Quantity)
+            @Html.HiddenFor(items => items.ToList()[i].Id)
+            @Html.HiddenFor(items => items.ToList()[i].IsAvailable)
+            @Html.HiddenFor(items => items.ToList()[i].Book.Id)
+            @Html.HiddenFor(items => items.ToList()[i].Book.Title)
+            @Html.HiddenFor(items => items.ToList()[i].Book.Author)
+            @Html.HiddenFor(items => items.ToList()[i].Book.Price)
+            @Html.HiddenFor(items => items.ToList()[i].Quantity)
 
-            }
-            for (int i = 0; i < Model.Count(); i++)
-            {
-                <tr>
-                    <td>
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].Id)
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Id)
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Title)
-                        @Html.ActionLink(Model.ToList()[i].Book.Title, "Details", "Book", new { Id = Model.ToList()[i].Book.Id })
-                        @if (!Model.ToList()[i].IsAvailable)
-                        {
-                            <span class="text-danger"> - (Not Available)</span>
-                        }
-                    </td>
-                    <td>
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Author)
-                        @Html.DisplayFor(modelItem => Model.ToList()[i].Book.Author)
-                    </td>
-                    <td>
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Price)
-                        @Html.DisplayFor(modelItem => Model.ToList()[i].Book.Price)
-                    </td>
-                    <td>
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].Quantity)
-                        @Html.DisplayFor(modelItem => Model.ToList()[i].Quantity)
-                    </td>
-                    <td>
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].Id)
-                        @Html.HiddenFor(modelItem => Model.ToList()[i].IsAvailable)
-                        @*@using (Html.BeginForm("Delete", "Cart", FormMethod.Post, new { @class = "form-inline" }))
-                        {
-                            <div>
-                                <input type="hidden" id="id" name="id" value=@item.Id />
-                                <input type="submit" id="submitId" value="Delete" class="form-control btn btn-danger" />
-                            </div>
-                        }*@
-                    </td>
-                </tr>
-            }
+        }
+        for (int i = 0; i < Model.Count(); i++)
+        {
             <tr>
                 <td>
-                    <input type="submit" value="Place Order" class="btn btn-primary" />
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].Id)
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Id)
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Title)
+                    @Html.ActionLink(Model.ToList()[i].Book.Title, "Details", "Book", new { Id = Model.ToList()[i].Book.Id })
+                    @if (!Model.ToList()[i].IsAvailable)
+                    {
+                        <span class="text-danger"> - (Not Available)</span>
+                    }
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Author)
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].Book.Author)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].Book.Price)
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].Book.Price)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].Quantity)
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].Quantity)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].Id)
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].IsAvailable)
                 </td>
             </tr>
-
         }
+        <tr>
+            <td>
+                <input type="submit" value="Place Order" class="btn btn-primary" />
+            </td>
+        </tr>
 
-    </table>
-
-@*<script>
-    function PlaceOrderAjax() {
-        var CartItems = [];
-        
-        for (var i = 0; i < 1 ; i++) {
-            CartItems.push({ ID: i, Name: "RJ" });
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: rootUrl('Home/TestPost'),
-            contentType: "application/json",
-            //data: { Test: JSON.stringify( data) },
-            data: JSON.stringify({ Test: Test }),
-            success: function (data) {
-                alert("Succeded");
-            }
-        });
     }
 
-</script>*@
-
-@*@Html.ActionLink("Place Order", "PlaceOrder", null, new { @class = "btn btn-primary" })*@
+</table>

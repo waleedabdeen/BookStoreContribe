@@ -1,31 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookStoreWFClient.Model;
 using BookStoreWFClient.Modules.ApiModule;
 using BookStoreWFClient.Modules.CartModule;
 using BookStoreWFClient.Modules.BookDetailsModule;
-using BookStoreWFClient.Util;
 using BookStoreWFClient.Modules.BooksGridModule;
+using BookStoreWFClient.Interfaces;
 
 namespace BookStoreWFClient.Modules.BookBrowserModule
 {
     class BookBrowserController
     {
-        IEnumerable<IBookDTO> books = new List<IBookDTO>();
-        BookstoreService bookstoreService = new BookstoreService();
+        IEnumerable<IBookDTO> books;
+        BookstoreService bookstoreService;
+        Form form;
 
-        public BookBrowserController()
+        public BookBrowserController(Form _form)
         {
-            
+            books = new List<IBookDTO>();
+            bookstoreService = new BookstoreService();
+            form = _form;
         }
 
-        public Task<IEnumerable<IBookDTO>> GetBooksFromService(string keyword = null)
+        public async Task<IEnumerable<IBookDTO>> GetBooksFromService(string keyword = null)
         {
-            return bookstoreService.GetBooksAsync(keyword);
+            return await bookstoreService.GetBooksAsync(keyword);
         }
 
         public Form GetCartForm()
@@ -50,7 +50,7 @@ namespace BookStoreWFClient.Modules.BookBrowserModule
         {
             BookDetailsForm form = new BookDetailsForm(book);
             form.TopLevel = false;
-            form.Dock = System.Windows.Forms.DockStyle.Fill;
+            form.Dock = DockStyle.Fill;
             return form;
         }
 

@@ -13,31 +13,21 @@ namespace BookStoreASPClient.Controllers
 
         public OrderController()
         {
-            if (!AccessToken.Valid())
-            {
-                RedirectToAction("Login", "Account");
-            }
             bookstoreService = new BookstoreService();
         }
 
         // GET: Order
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Home");
         }
-
-        // GET: Order/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        } 
 
         [HttpGet]
         public ActionResult PlaceOrder()
         {
             if (!AccessToken.Valid())
             {
-                RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account");
             }
             Cart cart = Session["Cart"] as Cart;
             return View(cart.CartItems);
@@ -72,7 +62,7 @@ namespace BookStoreASPClient.Controllers
                     return View("CheckOut", cart.CartItems);
                 }
             }
-            
+
             return View("CheckOut", cart.CartItems);
         }
 
@@ -81,7 +71,7 @@ namespace BookStoreASPClient.Controllers
         {
             if (!AccessToken.Valid())
             {
-                RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account");
             }
             Cart cart = new Cart();
             cart.CartItems = items.ToList();
@@ -107,7 +97,7 @@ namespace BookStoreASPClient.Controllers
         {
             if (!AccessToken.Valid())
             {
-                RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account");
             }
 
             bool created = (bool)TempData["OrderStatus"];
@@ -125,6 +115,8 @@ namespace BookStoreASPClient.Controllers
                 return RedirectToAction("Index", "Book");
             }
             
+
+            //Set availability: it will be used in the view to show which items were not orderd
             //clear available flag
             cart.CartItems.ForEach((c) => c.IsAvailable = false);
 
@@ -138,7 +130,7 @@ namespace BookStoreASPClient.Controllers
                 }
             }
 
-            if (cart.CartItems == order.OrderItemsDTO)
+            if (cart.CartItems.Count() == order.OrderItemsDTO.Count())
             {
                 ViewBag.Message = "All items were orderd";
             }

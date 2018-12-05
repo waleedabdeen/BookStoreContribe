@@ -60,7 +60,7 @@ namespace BookStoreAPI.Models
         }
         private bool BookAvailable(string id, int quantity, IBookStoreAPIContext db)
         {
-            return BookstoreService.BookAvailable(id, quantity, db);
+            return DbFunctions.BookAvailable(id, quantity, db);
         }
     }
 }

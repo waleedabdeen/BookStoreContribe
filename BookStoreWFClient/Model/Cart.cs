@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookStoreWFClient.Modules.ApiModule;
+﻿using System.Collections.Generic;
+using BookStoreWFClient.Interfaces;
 
 namespace BookStoreWFClient.Model
 {
     public class Cart : ICart
     {
-        public string Id { get; set; }
-
         public List<CartItem> CartItems { get; set; }
 
         public Cart()
         {
-            Id = "";
-            CartItems = new List<CartItem>();
+            InitializeNewCart();
         }
-        public async void InitializeNewCart()
+        public void InitializeNewCart()
         {
-            Task<string> task = new BookstoreService().GetNewId();
-            task.Start();
-            Id = await task;
+            CartItems = new List<CartItem>();
         }
     }
 }

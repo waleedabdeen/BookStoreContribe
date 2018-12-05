@@ -21,7 +21,7 @@ namespace BookStoreWFClient.Util
             int tblLayoutY = (container.Controls.Count * tblLayoutHeight) + (int)(container.Controls.Count * tblLayoutHeight * 0.1);
 
             //Setting culture info
-            Util.Culture.SetCultureInfo();
+            Culture.SetCultureInfo();
 
             //Create title label
             Label titleLabel = new Label();

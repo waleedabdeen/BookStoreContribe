@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using BookStoreWFClient.Modules.Bookstore;
 using BookStoreWFClient.Modules.Navigation;
 using BookStoreWFClient.Model;
@@ -29,16 +24,5 @@ namespace BookStoreWFClient.Util
         public static Cart Cart { get; set; }
 
         public static bool CanCheckOut { get; set; }
-
-        public static string Token { get; set; }
-
-        public static bool IsLoggedIn()
-        {
-            if (string.IsNullOrEmpty(Token))
-            {
-                return false;
-            }
-            return true;
-        }
     }
 }

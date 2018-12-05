@@ -25,9 +25,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Quantity)
         </th>
-        <th>
-            Action
-        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -48,18 +45,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            <td>
-                @using (Html.BeginForm("Delete", "Cart", FormMethod.Post, new { @class = "form-inline" }))
-                {
-                    <div>
-                        <input type="hidden" id="id" name="id" value=@item.Id />
-                        <input type="submit" id="submitId" value="Delete" class="form-control btn btn-danger" />
-                    </div>
-                }
-            </td>
+            
         </tr>
     }
 
 </table>
 
-@Html.ActionLink("Place Order", "PlaceOrder", "Order", null, new { @class = "btn btn-warning" })
+<div>
+    @Html.ActionLink("Place Order", "PlaceOrder", "Order", null, new { @class = "btn btn-warning" })
+</div>
+
+

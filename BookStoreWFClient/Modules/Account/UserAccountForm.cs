@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookStoreWFClient.Util;
 
 namespace BookStoreWFClient.Modules.Account
 {
-    public partial class UserAccontForm : Form
+    public partial class UserAccountForm : Form
     {
         UserAccountController controller;
 
-        public UserAccontForm()
+        public UserAccountForm()
         {
             InitializeComponent();
             InitializeEvents();
@@ -29,25 +23,10 @@ namespace BookStoreWFClient.Modules.Account
             btnExit.Click += new EventHandler(EH_BUTTON_CLICK_EXIT);
         }
 
-        public async void EH_BUTTON_CLICK_REGISTER(object sender, EventArgs args)
+        public void EH_BUTTON_CLICK_REGISTER(object sender, EventArgs args)
         {
-            string message = await controller.Register(textEmail.Text, textPassword.Text);
-            if (string.IsNullOrEmpty(message))
-            {
-                labelMessage.Text = "Something Went Wrong!";
-                labelMessage.ForeColor = Color.DarkRed;
-            }
-            else if (message.StartsWith("ERROR"))
-            {
-                labelMessage.Text = message;
-                labelMessage.ForeColor = Color.DarkRed;
-            }
-            else
-            {
-                labelMessage.Text = message;
-                labelMessage.ForeColor = Color.Green;
-            }
-            labelMessage.Visible = true;
+            RegisterForm registerForm = new RegisterForm();
+            registerForm.ShowDialog();
         }
 
         public async void EH_BUTTON_CLICK_LOGIN(object sender, EventArgs args)
@@ -61,7 +40,8 @@ namespace BookStoreWFClient.Modules.Account
             {
                 labelMessage.Text = "Logged in successfully";
                 labelMessage.ForeColor = Color.Green;
-                Global.Token = response;
+                User.Email = textEmail.Text;
+                User.Token = response;
             }
             labelMessage.Visible = true;
         }

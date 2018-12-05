@@ -52,26 +52,16 @@ namespace BookStoreWFClient.Model
 
         public void ShowLoadingMessage()
         {
-            //if (InvokeRequired)
-            //{
-                this.Invoke(new MethodInvoker(delegate
-                {
-                    CreateMessage("Please Wait..");
-                    this.Controls.Add(message);
-                    this.Controls.Add(pictureBox);
-                    message.BringToFront();
-                    pictureBox.BringToFront();
-                }));
-            //}
-            //else
-            //{
-            //    CreateMessage();
-            //    this.Controls.Add(message);
-            //    this.Controls.Add(pictureBox);
-            //    message.BringToFront();
-            //    pictureBox.BringToFront();
-            //}
-            
+
+            this.Invoke(new MethodInvoker(delegate
+            {
+                CreateMessage("Please Wait..");
+                this.Controls.Add(message);
+                this.Controls.Add(pictureBox);
+                message.BringToFront();
+                pictureBox.BringToFront();
+            }));
+
         }
 
         public void HideLoadingMessage()
@@ -111,7 +101,7 @@ namespace BookStoreWFClient.Model
             DialogResult dialogResult = MessageBox.Show("Your login session is expired, do you want to login?", "Unauthorized Access!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.OK)
             {
-                UserAccontForm userAccontForm = new UserAccontForm();                
+                UserAccountForm userAccontForm = new UserAccountForm();                
                 userAccontForm.ShowDialog();
             }
         }

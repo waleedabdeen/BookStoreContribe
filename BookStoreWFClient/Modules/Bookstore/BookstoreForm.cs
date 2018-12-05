@@ -7,13 +7,14 @@ namespace BookStoreWFClient.Modules.Bookstore
 {
     public partial class BookstoreForm : BasicForm
     {
-        public BookstoreController controller = new BookstoreController();
+        public BookstoreController controller;
         public BookstoreForm()
         {
             InitializeComponent();
             InitializeEvents();
             Global.MainForm = this;
             Global.ContentArea = panelContent;
+            controller = new BookstoreController();
         }
 
         void InitializeEvents()

@@ -41,7 +41,7 @@ namespace BookStoreWFClient.Modules.Navigation
 
         public void ShowUserAccountForm()
         {
-            UserAccontForm userAccontForm = new UserAccontForm();
+            UserAccountForm userAccontForm = new UserAccountForm();
             userAccontForm.Show();
         }
     }

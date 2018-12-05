@@ -1,39 +1,36 @@
-﻿
-
-using BookStoreWFClient.Model;
+﻿using BookStoreWFClient.Model;
 using BookStoreWFClient.Modules.ApiModule;
 using BookStoreWFClient.Modules.BookDetailsModule;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BookStoreWFClient.Interfaces;
 
 namespace BookStoreWFClient.Modules.BooksGridModule
 {
-
-   
-
     class BooksGridController
     {
+        IEnumerable<IBookDTO> books;
+        BookstoreService bookstoreService;
+        Form form;
 
-        IEnumerable<IBookDTO> books = new List<IBookDTO>();
-        BookstoreService bookstoreService = new BookstoreService();
-
-        public BooksGridController()
+        public BooksGridController(Form _form)
         {
-
-
+            books = new List<IBookDTO>();
+            bookstoreService = new BookstoreService();
+            form = _form;
         }
 
-        public Task<IEnumerable<IBookDTO>> GetBooksFromService(string keyword = null)
+        public async Task<IEnumerable<IBookDTO>> GetBooksFromService(string keyword = null)
         {
-            return bookstoreService.GetBooksAsync(keyword);
+            return await bookstoreService.GetBooksAsync(keyword);
         }
 
         public Form GetBookDetailsForm(BookDTO book)
         {
             BookDetailsForm form = new BookDetailsForm(book);
             form.TopLevel = false;
-            form.Dock = System.Windows.Forms.DockStyle.Fill;
+            form.Dock = DockStyle.Fill;
             return form;
         }
     }

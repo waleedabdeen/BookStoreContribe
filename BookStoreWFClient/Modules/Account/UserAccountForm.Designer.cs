@@ -1,6 +1,6 @@
 ﻿namespace BookStoreWFClient.Modules.Account
 {
-    partial class UserAccontForm
+    partial class UserAccountForm
     {
         /// <summary>
         /// Required designer variable.
@@ -55,6 +55,7 @@
             this.textPassword.Font = new System.Drawing.Font("Tahoma", 12F);
             this.textPassword.Location = new System.Drawing.Point(130, 195);
             this.textPassword.Name = "textPassword";
+            this.textPassword.PasswordChar = '*';
             this.textPassword.Size = new System.Drawing.Size(262, 32);
             this.textPassword.TabIndex = 1;
             // 
@@ -157,7 +158,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 431);
+            this.ClientSize = new System.Drawing.Size(514, 424);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.labelMessage);
             this.Controls.Add(this.labelInfo);

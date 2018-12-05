@@ -1,5 +1,4 @@
-﻿
-namespace BookStoreWFClient.Model
+﻿namespace BookStoreWFClient.Interfaces
 {
     public interface IApiResponse
     {
