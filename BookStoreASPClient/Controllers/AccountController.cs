@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using BookStoreASPClient.Models;
 using BookStoreASPClient.Modules.ApiModule;
@@ -67,7 +63,7 @@ namespace BookStoreASPClient.Controllers
                     var result = await bookstoreService.RegiserNewAccount(model.Email, model.Password);
                     if (string.IsNullOrEmpty(result))
                     {
-                        ModelState.AddModelError("", "Something Went Wrong!");
+                        ModelState.AddModelError("", "Wrong username or password!");
                         return View(model);
                     }
                     else if (result.StartsWith("ERROR"))
@@ -90,50 +86,6 @@ namespace BookStoreASPClient.Controllers
             catch
             {
                 return View(model);
-            }
-        }
-
-        // GET: Account/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Account/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Account/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Account/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace BookStoreASPClient.Models
+﻿using BookStoreASPClient.Interfaces;
+
+namespace BookStoreASPClient.Models
 {
     public class CartItem : ICartItem
     {

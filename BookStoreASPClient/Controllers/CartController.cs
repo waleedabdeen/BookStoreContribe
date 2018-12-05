@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using BookStoreASPClient.Models;
 using BookStoreASPClient.Modules.ApiModule;
+using BookStoreASPClient.Interfaces;
 
 namespace BookStoreASPClient.Controllers
 {
@@ -20,6 +18,7 @@ namespace BookStoreASPClient.Controllers
         }
 
         // GET: Cart
+        [HttpGet]
         public ActionResult Index()
         {
             ViewBag.Error = TempData["Cart_Error"];
@@ -27,6 +26,7 @@ namespace BookStoreASPClient.Controllers
             return View(GetCart().CartItems);
         }
 
+        // POST: Cart/Add
         [HttpPost]
         public async Task<ActionResult> Add(FormCollection collection)
         {
@@ -46,26 +46,24 @@ namespace BookStoreASPClient.Controllers
             else
             {
                 cart = GetCart();
-                Task<IBookDTO> task = bookstoreService.GetBookDetailsAsync(id);
-                task.Start();
-                BookDTO book = await task as BookDTO;
+                BookDTO book = await bookstoreService.GetBookDetailsAsync(id) as BookDTO;
 
                 cart.CartItems.Add(new CartItem { Id = cart.CartItems.Count + 1, Book = book, Quantity = quantity });
                 Session["Cart"] = cart;
             }
             
             //ViewBag.Message = "Added to cart";
-
             return RedirectToAction("Details", "Book", new { Id = id , Message = "Book Added To Cart"});
         }
 
+        // POST: Cart/Delete/5
         [HttpPost]
-        public ActionResult Delete(FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
                 cart = GetCart();
-                int id = Convert.ToInt32(collection["id"]);
+                //int id = Convert.ToInt32(collection["id"]);
                 int i = cart.CartItems.FindIndex((c) => c.Id == id);
                 if (i >= 0)
                 {

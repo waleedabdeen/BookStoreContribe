@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<BookStoreASPClient.Models.CartItem>
 
+@Scripts.Render("~/Scripts/cart.js")
+
 @{
     ViewBag.Title = "Cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,8 +14,8 @@
     <span class="text-danger">@ViewBag.Message</span>
 }
 
-@using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+@*@using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
     <table class="table">
         <tr>
             <th>
@@ -49,24 +51,18 @@
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td>
-                    @using (Html.BeginForm("Delete", "Cart", FormMethod.Post, new { @class = "form-inline" }))
-                    {
-                        <div>
-                            <input type="hidden" id="id" name="id" value=@item.Id />
-                            <input type="submit" id="submitId" value="Delete" class="form-control btn btn-danger" />
-                        </div>
-                    }
+                    <button type="button" class="btn btn-danger" onclick="deleteCartItem(@item.Id)">Delete</button>
                 </td>
             </tr>
         }
 
     </table>
+@*}*@
 
-    <input type="submit" value="Checkout" class="btn btn-primary" />
-}
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("CheckOut", "Order",Model)'">Checkout</button>
 
-    <button type="button" onclick="location.href='@Url.Action("CheckOut", "Order",Model)'">Check</button>
-
-
+<script>
+    var dep = getElementById();
+</script>
 @*@Ajax.ActionLink("Checkout", "CheckOut", "Order", Model, new AjaxOptions { HttpMethod = "POST" })*@
 @*@Html.ActionLink("Checkout", "CheckOut", "Order", Model, FormMethod.Post, new { @class = "btn btn-warning" })*@

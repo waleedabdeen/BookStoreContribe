@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookStoreASPClient.Models;
-using BookStoreASPClient.Modules.LoggingModule;
+using BookStoreASPClient.Interfaces;
 
 namespace BookStoreASPClient.Modules.ApiModule
 {
@@ -12,121 +9,77 @@ namespace BookStoreASPClient.Modules.ApiModule
     {
         private readonly string logTag = "Bookstore";
 
-        public BookstoreService()
-        {
+        public BookstoreService() {}
 
-        }
-
-        private IBookDTO GetBookDetails(string id)
-        {
-            try
-            {
-                return ResponseReader.GetBookDetails(RequestToServer.RequestBookDetails(id));
-            }
-            catch (Exception e)
-            {
-                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
-                return null;
-            }
-        }
-
+        // return the details of one book using id
         public Task<IBookDTO> GetBookDetailsAsync(string id)
         {
-            Task<IBookDTO> task = new Task<IBookDTO>(() =>
-            {
-                return GetBookDetails(id);
-            });
-            return task;
-        }
-
-        // return the list of books matching the search string
-        private IEnumerable<IBookDTO> GetBooks(string searchString)
-        {
-            try
-            {
-                return ResponseReader.GetBooks(RequestToServer.RequestBooks(searchString));
-            }
-            catch (Exception e)
-            {
-                LoggingService.Log(LoggingService.LogType.error, e.ToString(), logTag);
-                return null;
-            }
-
+            return Task.Run(() =>
+                ResponseReader.GetBookDetails(RequestToServer.RequestBookDetails(id))
+            );
         }
 
         // return the list of books matching the search string async 
         public Task<IEnumerable<IBookDTO>> GetBooksAsync(string searchString = "")
         {
-            Task<IEnumerable<IBookDTO>> task = new Task<IEnumerable<IBookDTO>>(() =>
-            {
-                return GetBooks(searchString);
-            });
-            return task;
+            return Task.Run(() =>
+                 ResponseReader.GetBooks(RequestToServer.RequestBooks(searchString))
+            );
         }
 
         //TODO FIX this 
         public Task<string> GetNewId()
         {
-            Task<string> task = new Task<string>(() => {
+            return Task.Run(() =>
+            {
                 string response = RequestToServer.RequestNewId("http://localhost:59759/api/util/getId");
                 if (response == "error")
                 {
                     return null;
                 }
                 return "to be fixed";
-                //return ResponseReader.GetOrderId(response);
-            });
-            return task;
+            }
+            );
         }
 
-        public Task<ReturnStatus> CheckOut(ref Cart cart, string accessToken)
+        //TODO test it
+        public async Task<Cart> CheckOut(Cart cart, string accessToken)
         {
             Cart tempCart = cart;
-            Task<ReturnStatus> taskCheckOut = new Task<ReturnStatus>(() => {
 
-                IEnumerable<IBookDTO> availableBooks = CheckAvailability(tempCart, accessToken);
-                if (availableBooks == null)
+            IEnumerable<IBookDTO> availableBooks = await CheckAvailability(tempCart, accessToken);
+            if (availableBooks == null)
+            {
+                return null;
+            }
+            // set all cart items to unavailable
+            tempCart.CartItems.ForEach((element) => element.IsAvailable = false);
+            foreach (BookDTO book in availableBooks)
+            {
+                for (int i = 0; i < tempCart.CartItems.Count; i++)
                 {
-                    return ReturnStatus.Undefined;
-                }
-                // set all cart items to unavailable
-                tempCart.CartItems.ForEach((element) => element.IsAvailable = false);
-                if (availableBooks.Count() == 0)
-                {
-                    return ReturnStatus.No;
-                }
-                foreach (BookDTO book in availableBooks)
-                {
-                    for (int i = 0; i < tempCart.CartItems.Count; i++)
+                    if (tempCart.CartItems[i].Book.Id.Equals(book.Id))
                     {
-                        if (tempCart.CartItems[i].Book.Id.Equals(book.Id))
-                        {
-                            tempCart.CartItems[i].IsAvailable = true;
-                            break;
-                        }
+                        tempCart.CartItems[i].IsAvailable = true;
+                        break;
                     }
                 }
-                if (availableBooks.Count() != tempCart.CartItems.Count())
-                {
-                    return ReturnStatus.No;
-                }
-                return ReturnStatus.Yes;
-            });
-            cart = tempCart;
-            return taskCheckOut;
+            }
+            return tempCart;        
         }
 
-        private IEnumerable<IBookDTO> CheckAvailability(Cart cart, string accessToken)
+        private Task<IEnumerable<IBookDTO>> CheckAvailability(Cart cart, string accessToken)
         {
-            return ResponseReader.GetBooks(RequestToServer.CheckBooksAvailability(cart, accessToken));
+            return Task.Run(() =>
+                ResponseReader.GetBooks(RequestToServer.CheckBooksAvailability(cart, accessToken))
+            );
         }
 
         public Task<OrderDetailsDTO> CreateNewOrder(Cart cart, string accessToken)
         {
-            Task<OrderDetailsDTO> task = new Task<OrderDetailsDTO>(() => {
-                return ResponseReader.GetOrderDetails(RequestToServer.CreateNewOrder(cart, accessToken));
-            });
-            return task;
+            return Task.Run(() =>
+                ResponseReader.GetOrderDetails(RequestToServer.CreateNewOrder(cart, accessToken))
+            );
         }
 
         public Task<string> RegiserNewAccount(string email, string password)
@@ -134,10 +87,6 @@ namespace BookStoreASPClient.Modules.ApiModule
             return Task.Run(()=>
                 ResponseReader.RegistrationStatus(RequestToServer.RegisterNewAccount(email, password))
             );
-            //Task<string> task = new Task<string>(() => {
-                
-            //});
-            //return task;
         }
 
         public Task<string> GetToken(string email, string password)
@@ -145,11 +94,6 @@ namespace BookStoreASPClient.Modules.ApiModule
             return Task.Run(()=>
                 ResponseReader.TokenString(RequestToServer.GetToken(email, password))
             );
-            //Task<string> task = new Task<string>(() => {
-            //    return 
-            //});
-            //return task;
-
         }
     }
 }

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using BookStoreASPClient.Models;
 using BookStoreASPClient.Modules.ApiModule;
 
 namespace BookStoreASPClient.Controllers
 {
-    // Authorize
     public class OrderController : Controller
     {
         BookstoreService bookstoreService;
@@ -38,54 +35,58 @@ namespace BookStoreASPClient.Controllers
         [HttpGet]
         public ActionResult PlaceOrder()
         {
+            if (!AccessToken.Valid())
+            {
+                RedirectToAction("Login", "Account");
+            }
             Cart cart = Session["Cart"] as Cart;
             return View(cart.CartItems);
         }
-
         
+        // GET: Order/CheckOut
         [HttpGet]
         public async Task<ActionResult> CheckOut()
         {
-            Cart cart = GetCart();
             if (!AccessToken.Valid())
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            //cart = GetCart();
-            Task<ReturnStatus> task = bookstoreService.CheckOut(ref cart, AccessToken.Get());
-            task.Start();
-            ReturnStatus status = await task;
-            Session["Cart"] = cart;
-            if (status == ReturnStatus.Undefined)
+            Cart cart = GetCart();
+            Cart updatedCart = await bookstoreService.CheckOut(cart, AccessToken.Get());
+            
+            if(updatedCart == null || updatedCart.CartItems.Count() == 0)
             {
                 TempData["Cart_Error"] = true;
                 TempData["Cart_Message"] = "Something Went Wrong";
-                return RedirectToAction("Index","Cart");
+                return RedirectToAction("Index", "Cart");
+            }
 
-            }
-            else if (status == ReturnStatus.No)
+            Session["Cart"] = updatedCart;
+            foreach (CartItem cartItem in updatedCart.CartItems)
             {
-                ViewBag.Error = true;
-                ViewBag.Message = "Not all items are available";
-                return View("CheckOut", cart.CartItems);
+                if (!cartItem.IsAvailable)
+                {
+                    ViewBag.Error = true;
+                    ViewBag.Message = "Not all items are available";
+                    return View("CheckOut", cart.CartItems);
+                }
             }
-            else
-            {
-                return View("CheckOut", cart.CartItems);
-            }
+            
+            return View("CheckOut", cart.CartItems);
         }
-
 
         [HttpPost]
         public async Task<ActionResult> PlaceOrder(IEnumerable<CartItem> items)
         {
+            if (!AccessToken.Valid())
+            {
+                RedirectToAction("Login", "Account");
+            }
             Cart cart = new Cart();
             cart.CartItems = items.ToList();
 
-            Task<OrderDetailsDTO> task = bookstoreService.CreateNewOrder(cart, AccessToken.Get());
-            task.Start();
-            OrderDetailsDTO order = await task;
+            OrderDetailsDTO order = await bookstoreService.CreateNewOrder(cart, AccessToken.Get());
             if (order == null)
             {
                 TempData["OrderStatus"] = false;
@@ -104,6 +105,11 @@ namespace BookStoreASPClient.Controllers
         [HttpGet]
         public ActionResult OrderCreatedResult()
         {
+            if (!AccessToken.Valid())
+            {
+                RedirectToAction("Login", "Account");
+            }
+
             bool created = (bool)TempData["OrderStatus"];
             if (!created)
             {
@@ -131,7 +137,6 @@ namespace BookStoreASPClient.Controllers
                     item.IsAvailable = true;
                 }
             }
-
 
             if (cart.CartItems == order.OrderItemsDTO)
             {

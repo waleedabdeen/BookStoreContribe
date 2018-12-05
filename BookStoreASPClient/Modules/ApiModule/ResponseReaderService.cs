@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using BookStoreASPClient.Models;
 using BookStoreASPClient.Modules.LoggingModule;
+using BookStoreASPClient.Interfaces;
+
 
 namespace BookStoreASPClient.Modules.ApiModule
 {
