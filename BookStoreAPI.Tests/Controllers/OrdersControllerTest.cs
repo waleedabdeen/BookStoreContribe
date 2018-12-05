@@ -44,25 +44,6 @@ namespace BookStoreAPI.Tests.Controllers
             Assert.AreEqual(499, orderDetails.TotalAmount);
         }
 
-        //[TestMethod]
-        //public void GetOrder_ShouldReturnUserOrders()
-        //{
-        //    // Arrange
-        //    var context = new TestBookStoreAPIContext();
-        //    context.Orders.Add(DemoData.GetDemoOrder());
-
-        //    // Act
-        //    var controller = new OrdersController(context);
-        //    var result =  controller.GetOrders() as IHttpActionResult;
-        //    var contentResult = result as OkNegotiatedContentResult<ApiResponse>;
-        //    var orders = contentResult.Content.Data as List<Order>;
-
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.IsTrue(!contentResult.Content.Error);
-        //    Assert.AreEqual(1, orders.Count);
-        //}
-
         [Test]
         public async Task PostOrder_ShouldPostNewOrder()
         {
