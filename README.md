@@ -28,7 +28,8 @@ The application consists of four projects. as follow:
 - JQuery
 
 4-BookStoreWFClient: This is another frontend part of the project. It is built using Windows Forms. It follows the same concept as the previous ASP client to connect to the backend using POST and GET requests.
-
+#### Technologies:
+- WinForms
 
 ## Architecture:
 
