@@ -55,4 +55,5 @@ Alternatively: you could just click the restore button when promoted by visual s
 
 3- Build & Run 
 
+Note: by detault it will run BookStoreAPI which is the backend, to use the client then you need to right click the solution and go to properites, then select multiple startup and choose the projects you want to start (e.g. BookStoreAPI and BookStoreASPClient)
 
