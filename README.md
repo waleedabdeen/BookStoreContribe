@@ -50,7 +50,8 @@ The solution uses Travis CI as continues integration tool. It automatically buil
 2- In the package manageer console run the following command ```nuget restore```
 in case you do not have nuget installed then follow the steps mentioned in the link below
 https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools
-Alternatively: you could just click the restore button when promoted by visual studio when you open the project
+
+Alternatively: you could just click the restore button when promoted by visual studio when you open the project.
 
 3- Build & Run 
 
