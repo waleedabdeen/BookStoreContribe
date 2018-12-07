@@ -5,7 +5,7 @@ Branch | Travis CI
 master (default) |[![Build Status](https://travis-ci.com/waleedabdeen/BookStoreContribe.svg?token=qzVLhTyKrSJxgSB2QeET&branch=master)](https://travis-ci.com/waleedabdeen/BookStoreContribe)
 
 
-This is a book store web applicatiom. It is built in C# using Entitiy Framework (.Net Framework).
+This is a book store web application. It is built in C# using Entitiy Framework (.Net Framework).
 
 
 ## Projects Included
