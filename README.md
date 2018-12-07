@@ -13,16 +13,16 @@ This is a book store web applicatiom. It is built in C# using Entitiy Framework 
 The application consists of four projects. as follow:
 
 1- BookStoreAPI: This is the backend part of the solution. It is a web api built in C#, using Entity Framework and MVC.
-Technologies
--Entitiy Framework
--Web API
+#### Technologies
+- Entitiy Framework
+- Web API
 
 2- BookStoreAPI.Tests: This project contains a test suit for the previous project (BookStoreAPI). It consists of unit tests. Built using Nunit test.
-Technologies:
--Nunit
+#### Technologies:
+- Nunit
 
 3- BookStoreASPClient : This is a frontend for the project. It is built using ASP.NET Framework, and can be deployed separatly on different servers, it is not tide to the backend api, since each one is separate project.
-Technologies:
+#### Technologies:
 - ASP.NET Framework
 - MVC
 - JQuery
